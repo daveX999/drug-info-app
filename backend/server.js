@@ -4,11 +4,17 @@ const dotenv = require('dotenv').config()
 const {errorHandler} = require('./middleware/errorMiddleware')
 console.log('MONGO_URI:', process.env.MONGO_URI)
 const connectDB = require('./config/db')
+const cors = require('cors')
 const port = process.env.PORT || 5000
 
 const app = express()
 
 connectDB()
+
+// CORS - allow your Vercel frontend
+app.use(cors({
+  origin: process.env.FRONTEND_URL || '*'
+}))
 
 // Middleware
 app.use(express.json())
